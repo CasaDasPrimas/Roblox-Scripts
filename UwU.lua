@@ -999,3 +999,4 @@ if not IsMobile then
     end)
 end
 
+main:load()
