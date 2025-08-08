@@ -634,7 +634,7 @@ function AutoSpam(self)
     return Spam_Accuracy
 end
 
-workspace.RunTime.ChildAdded:Connect(function(obj)
+workspace.Runtime.ChildAdded:Connect(function(obj)
     if getgenv().PhantomV2Detection and not Connections['PhatomV2'] then
         if obj.Name == 'maxTransmission' or obj.Name == 'transmissionpart' then
             local Weld = obj:FindFirstChildWhichIsA('WeldConstraint')
