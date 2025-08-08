@@ -1,0 +1,55 @@
+status tab:
+- run time
+- next beast
+main tab:
+- shiftlock
+- anti error
+- touch fling
+- fullbright
+- Interact aura
+- save aura
+- auto save
+- auto escape
+- teleport to pc
+- teleport to exit
+beast sec:
+- auto tie
+- hit aura
+- freeze aura
+- no stun
+- enable crawl button
+- pick all player
+esp tab:
+- multidropdown funcs
+- players and beast
+- pc
+- pod
+- exit
+players tab:
+- search dropdown
+- view
+- teleport
+- fling
+- focus
+- backpack
+- headsit
+- bang
+- facefuck
+- suck
+- uwu
+event tab:
+- fucture
+settings:
+global sec:
+- fling power slider
+- auto tie distance dropdown
+- hit aura distance dropdown
+buttons sec:
+- multidropdown buttons
+- y slider
+- x slider
+- size slider
+- buttons modifier
+misc tab:
+- crawl modifier
+- remove fog
