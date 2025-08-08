@@ -7,6 +7,8 @@ end
 getgenv().UwU = true
 
 --// Serviços
+cloneref = cloneref or function(a) return a end
+
 local VirtualInputManager = cloneref(game:GetService('VirtualInputManager'))
 local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
 local UserInputService = cloneref(game:GetService('UserInputService'))
@@ -183,7 +185,7 @@ end
 
 function Closest_Player()
     local Max_Distance = math.huge
-    local Closest = nil
+    local Closest
 
     for _, player in workspace.Alive:GetChildren() do
         if player.Name ~= LocalPlayer.Name then
@@ -191,7 +193,6 @@ function Closest_Player()
                 local Distance = LocalPlayer:DistanceFromCharacter(player.PrimaryPart.Position)
 
                 if Distance < Max_Distance then
-                    Max_Distance = Distance
                     Closest = player
                 end
             end
@@ -285,7 +286,7 @@ function GrabAnimation()
         variables.GrabParry:Stop()
     end
 
-    variables.GrabParry = Anim:LoadAnimation(ParryAnim)
+    variables.GrabParry = LocalPlayer.Character.Humanoid:LoadAnimation(ParryAnim)
     variables.GrabParry.Priority = Enum.AnimationPriority.Action4
     variables.GrabParry:Play()
 end
@@ -315,27 +316,19 @@ function GetClosestPlayerToCursor()
 
     local Closest
     local _Dot = -math.huge
-    local Root = LocalPlayer.Character:FindFirstChild('HumanoidRootPart')
 
     local Mouse_Location = UserInputService:GetMouseLocation()
     local Ray = CurrentCamera:ScreenPointToRay(Mouse_Location.X, Mouse_Location.Y)
-    local pointer = CFrame.lookAt(Ray.Origin, Ray.Origin + Ray.Direction)
+    local Point = CFrame.lookAt(Ray.Origin, Ray.Origin + Ray.Direction)
 
     for _, player in workspace.Alive:GetChildren() do
-        if player == LocalPlayer.Character then
-            return
-        end
+        if player.Name ~= LocalPlayer.Name then
+            local To_Player = (player.HumanoidRootPart.Position - CurrentCamera.CFrame.Position).Unit
+            local Dot = Point.LookVector:Dot(To_Player)
 
-        if not player:FindFirstChild('HumanoidRootPart') then
-            return
-        end
-
-        local To_Player = (player.HumanoidRootPart.Position - CurrentCamera.CFrame.Position).Unit
-        local Dot = pointer.LookVector:Dot(To_Player)
-
-        if Dot > _Dot then
-            _Dot = Dot
-            Closest = player
+            if Dot > _Dot then
+                Closest = player
+            end
         end
     end
 
@@ -410,6 +403,10 @@ function Parry()
         obj:FireServer(args,Remote,unpack(Curve))
     end
 
+    if getgenv().AnimFix then
+        GrabAnimation()
+    end
+
     if variables.Parries > 7 then
         return false
     end
@@ -447,7 +444,7 @@ function Is_Curving()
     local Speed = Velocity.Magnitude
 
     local Speed_Threshold = math.min(Speed / 100 / 40)
-    local Angle_Threshold = 40 * math.max(Dot, 0)
+    --local Angle_Threshold = 40 * math.max(Dot, 0)
     local Distance = (Pos - BallPos).Magnitude
     local Reach = Distance / Speed - (Ping / 1000)
 
@@ -526,7 +523,7 @@ function Is_Curving()
     local Similarity = Direction:Dot(Difference.Unit)
     local Dot_Difference = Dot - Similarity
 
-    if Difference < Dot_Threshold then
+    if Dot_Difference < Dot_Threshold then
         return true
     end
 
@@ -637,8 +634,6 @@ function AutoSpam(self)
     return Spam_Accuracy
 end
 
-
-
 workspace.RunTime.ChildAdded:Connect(function(obj)
     if getgenv().PhantomV2Detection and not Connections['PhatomV2'] then
         if obj.Name == 'maxTransmission' or obj.Name == 'transmissionpart' then
@@ -737,6 +732,21 @@ task.spawn(function()
     end
 end)
 
+local NinjaDash = ReplicatedStorage['Packages']['_Index']['sleitnick_net@0.1.0']['net']['RE/NinjaDash']
+
+local call
+call = hookmetamethod(game, '__namecall', function(self, ...)
+    if self == NinjaDash and getnamecallmethod() == 'FireServer' then
+        variables.Parried = true
+
+        task.delay(0.5155, function()
+            variables.Parried = false
+        end)
+    end
+
+    return call(self, ...)
+end)
+
 --// Buttons
 local APModule = AP:CreateModule({
     Title = 'Auto Parry',
@@ -750,23 +760,22 @@ local APModule = AP:CreateModule({
                     Title = "Auto Parry Notification",
                     Text = "Auto Parry has been turned ON",
                     Duration = 3
-                    })
+                })
             else
-                    Library.CreateNotify({
-                        Title = "Auto Parry Notification",
-                        Text = "Auto Parry has been turned OFF",
-                        Duration = 3
-                    })
+                Library.CreateNotify({
+                    Title = "Auto Parry Notification",
+                    Text = "Auto Parry has been turned OFF",
+                    Duration = 3
+                })
             end
         end
 
         if value then
             Connections['Auto Parry'] = RunService.PreSimulation:Connect(function()
-                local _Ball = Auto_Parry.Get_Ball()
-                local Balls = Auto_Parry.Get_Balls()
+                local _Ball = Get_Ball()
+                local Balls = Get_Balls()
 
                 for _, Ball in Balls do
-
                     if getgenv().TriggerBot then
                         return
                     end
@@ -806,7 +815,7 @@ local APModule = AP:CreateModule({
                     local speed_divisor = SpeedDivisor * Multiplier
                     local Parry_Accuracy = Ping_Threshold + math.max(Speed / speed_divisor, 9.5)
 
-                    local Curved = Is_Curved()
+                    local Curved = Is_Curving()
 
                     if Ball:FindFirstChild('AeroDynamicSlashVFX') then
                         Debris:AddItem(Ball.AeroDynamicSlashVFX, 0)
@@ -845,12 +854,11 @@ local APModule = AP:CreateModule({
                         end
 
                         if getgenv().AutoParryKeypress then
-                            VirtualInputService:SendKeyEvent(true, Enum.KeyCode.F, false, nil)
+                            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, nil)
                         else
                             Parry()
                         end
 
-                        Last_Parry = Parry_Time
                         variables.Parried = true
                     end
 
@@ -871,21 +879,6 @@ local APModule = AP:CreateModule({
     end
 })
 
-local NinjaDash = ReplicatedStorage['Packages']['_Index']['sleitnick_net@0.1.0']['net']['RE/NinjaDash']
-
-local call
-call = hookmetamethod(game, '__namecall', function(self, ...)
-    if self == NinjaDash and getnamecallmethod() == 'FireServer' then
-        variables.Parried = true
-
-        task.delay(0.5155, function()
-            variables.Parried = false
-        end)
-    end
-
-    return call(self, ...)
-end)
-
 APModule:CreateCheckBox({
     Title = 'Notify',
     Flag = 'Auto Parry Notify',
@@ -904,3 +897,104 @@ local CurveModule = APModule:CreateDropdown({
         getgenv().CurrentCurve = value
     end
 })
+
+APModule:CreateSlider({
+    Title = 'Parry Accuracy',
+    Flag = 'Accuracy',
+    Min = 1,
+    Max = 100,
+    Default = 1,
+    Round = false,
+    Callback = function(value: number)
+        Numbers.Multiplier = 0.555 + (value - 1) * (0.35 / -99) -- original 99
+    end
+})
+
+APModule:CreateDivider({})
+
+APModule:CreateCheckBox({
+    Title = 'Cooldown Protection',
+    Flag = 'CooldownProtection',
+    Callback = function(value: boolean)
+        getgenv().CooldownProtection = value
+    end
+})
+
+APModule:CreateCheckBox({
+    Title = 'Auto Ability',
+    Flag = 'AutoAbility',
+    Callback = function(value: boolean)
+        getgenv().AutoAbility = value
+    end
+})
+
+--anti phantom
+
+APModule:CreateDivider({})
+
+APModule:CreateCheckBox({
+    Title = 'Animation Fix',
+    Flag = 'Fix',
+    Callback = function(value: boolean)
+        getgenv().AnimFix = value
+    end
+})
+
+APModule:CreateCheckBox({
+    Title = 'Keypress',
+    Flag = 'APKeypress',
+    Callback = function(value: boolean)
+        getgenv().AutoParryKeypress = value
+    end
+})
+
+if not IsMobile then
+    local HotKeyModule = AP:CreateModule ({
+        Title = 'Auto Curve HotKey',
+        Description = '',
+        Flag = 'HotKey',
+        Section = 'right',
+        Callback = function(value: boolean)
+            getgenv().HotKey = value
+        end
+    })
+
+    HotKeyModule:CreateCheckBox({
+        Title = 'Notify',
+        Flag = 'HotKeyNotify',
+        Callback = function(value: boolean)
+            getgenv().HotKeyNotify = value
+        end
+    })
+
+    UserInputService.InputBegan:Connect(function(input, process)
+        if process or not getgenv().HotKey then
+            return
+        end
+
+        if input.UserInputType == Enum.UserInputType.Keyboard then
+            local Keys = {
+                [Enum.KeyCode.One] = "Camera",
+                [Enum.KeyCode.Two] = "Random",
+                [Enum.KeyCode.Three] = "Dot",
+                [Enum.KeyCode.Four] = "Backwards",
+                [Enum.KeyCode.Five] = "Slow",
+                [Enum.KeyCode.Six] = "Accelerated",
+                [Enum.KeyCode.Seven] = "High"
+            }
+
+            if Keys[input.KeyCode] then
+                CurrentCurve = Keys[input.KeyCode]
+                CurveModule:Update(Keys[input.KeyCode])
+            end
+
+            if getgenv().HotKeyNotify then
+                Library:CreateNotify({
+                    Title = "Curve Changed",
+                    Text = "New Curve: " .. Keys[input.KeyCode],
+                    Duration = 3
+                })
+            end
+        end
+    end)
+end
