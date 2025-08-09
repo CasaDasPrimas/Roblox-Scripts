@@ -601,10 +601,6 @@ function Library:CreateUi()
         "103066533154874"
     }
 
-    for _, id in ipairs(IDs) do
-        ContentProvider:PreloadAsync({ "rbxassetid://" .. id })
-    end
-
     local Frame = 1
     local lastTime = os.clock()
 
@@ -620,6 +616,7 @@ function Library:CreateUi()
             end
             lastTime = Time
         end
+        RunService.RenderStepped:Wait()
     end)
 
     local Divider = Instance.new('Frame', Handler)
