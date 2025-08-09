@@ -42,7 +42,7 @@ getgenv().GG = {
 
 local SelectedLanguage = GG.Language
 
-function StringToTable(String: string)
+function StringToTable(String)
     local r = {}
 
     for v in string.gmatch(String, '([^,]+)') do
@@ -602,12 +602,12 @@ function Library:CreateUi()
     }
 
     local Frame = 1
-    local lastTime = tick()
+    local lastTime = os.clock()
 
-    RunService.RenderStepped:Connect(function()
-        local Time = tick()
+    RunService.Heartbeat:Connect(function()
+        local Time = os.clock()
 
-        if Time - lastTime >= 0.2 then
+        if Time - lastTime >= 0.1 then
             Icon.Image = "rbxassetid://" .. IDs[Frame]
             Frame = Frame + 1
 
@@ -2094,7 +2094,7 @@ function Library:CreateUi()
                 TextLabel3.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 TextLabel3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
-                local Box = Instance.new('Frame', TextLabel)
+                local Box = Instance.new('Frame', TextLabel3)
                 Box.ClipsDescendants = true
                 Box.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 Box.AnchorPoint = Vector2.new(0.5, 0)
