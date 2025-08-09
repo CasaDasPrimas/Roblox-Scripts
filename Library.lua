@@ -605,7 +605,7 @@ function Library:CreateUi()
 
         if Time - lastTime >= 0.1 then
             Icon.Image = "rbxassetid://" .. IDs[Frame]
-            Frame = Frame + 1
+            Frame += 1
 
             if Frame > #IDs then
                 Frame = 1
