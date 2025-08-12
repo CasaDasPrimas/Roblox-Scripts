@@ -1,3 +1,7 @@
+repeat task.wait() until game:IsLoaded()
+
+cloneref = cloneref or function(...) return ... end
+
 local VirtualInputManager = cloneref(game:GetService('VirtualInputManager'))
 local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
 local UserInputService = cloneref(game:GetService('UserInputService'))
@@ -566,7 +570,7 @@ type functionInfo = {
     constantCount: number
 }
 
-local function getFunction(t:functionInfo)
+function getFunction(t:functionInfo)
     t = t or {}
     local functions = {}
     local function findMatches()
@@ -624,7 +628,7 @@ if getgenv().updateSword and getgenv().skin_changer then
     return
 end
 
-local function getTable(t:tableInfo)
+function getTable(t:tableInfo)
     t = t or {}
     local tables = {}
     
@@ -1109,7 +1113,7 @@ blatant_tab:AddToggle('Toggle', {
                 local threshold = _G.config.spam_threshold
 
                 if Distance <= spam_range and parries > threshold then
-                     AutoParry.parry(_G.config.curve_method)
+                    AutoParry.parry(_G.config.curve_method)
                 end
             end)
         else
@@ -1271,21 +1275,21 @@ player_tab:AddToggle('Toggle', {
 
         if state then
             Connection['no_slow'] = RunService.PostSimulation:Connect(function()
-	            if not LocalPlayer.Character then
-		            return
-	            end
+                if not LocalPlayer.Character then
+                    return
+                end
 
-	            if not workspace.Alive:FindFirstChild(LocalPlayer.Name) then
-		            return
-	            end
+                if not workspace.Alive:FindFirstChild(LocalPlayer.Name) then
+                    return
+                end
 
-	            if not LocalPlayer.Character:FindFirstChild('Humanoid') then
-		            return
-	            end
+                if not LocalPlayer.Character:FindFirstChild('Humanoid') then
+                    return
+                end
 
-	            if LocalPlayer.Character.Humanoid.WalkSpeed < 36 then
-		            LocalPlayer.Character.Humanoid.WalkSpeed = 36
-	            end
+                if LocalPlayer.Character.Humanoid.WalkSpeed < 36 then
+                    LocalPlayer.Character.Humanoid.WalkSpeed = 36
+                end
             end)
         else
             if Connection['no_slow'] then

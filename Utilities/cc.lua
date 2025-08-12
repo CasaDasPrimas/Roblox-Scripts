@@ -1,5 +1,5 @@
 if not game:IsLoaded() then
-  game.Loaded:wait()
+  game.Loaded:Wait()
 end
 
 if _G.FTF then warn("Ocalism: Already Executed") return end
@@ -295,7 +295,7 @@ task.spawn(function()
         beastchances = beast.Name
       end
     else
-      beastchance = "Unknown"
+      beastchances = "Unknown"
     end
     
     Detector:SetTitle("The Next Beast is: " .. beastchances)
@@ -417,7 +417,7 @@ Main:AddToggle("touch_fling",
     Title = "Touch Fling",
     Default = _G.config.touch_fling or false,
     Callback = function(value)
-    G.config.touch_fling = value
+    _G.config.touch_fling = value
     save()
 
     spawn(function()
@@ -518,65 +518,7 @@ beastSec:AddToggle("freeze",{
 -- enable cralw, remove fog, teleport to pc and exit, auto interact, auto escape, hit aura, no stun, beast sound, anti afk,   
 
 local PlB = Tabs.Esp:AddSection("")
-  
-  eventEditor = (function()
-	local events = {}
 
-	local function registerEvent(name,sets)
-		events[name] = {
-			commands = {},
-			sets = sets or {}
-		}
-	end
-
-	local onEdited = nil
-
-	local function fireEvent(name,...)
-		local args = {...}
-		local event = events[name]
-		if event then
-			for i,cmd in pairs(event.commands) do
-				local metCondition = true
-				for idx,set in pairs(event.sets) do
-					local argVal = args[idx]
-					local cmdSet = cmd[2][idx]
-					local condType = set.Type
-					if condType == "Player" then
-						if cmdSet == 0 then
-							metCondition = metCondition and (tostring(Players.LocalPlayer) == argVal)
-						elseif cmdSet ~= 1 then
-							metCondition = metCondition and table.find(getPlayer(cmdSet,Players.LocalPlayer),argVal)
-						end
-					elseif condType == "String" then
-						if cmdSet ~= 0 then
-							metCondition = metCondition and string.find(argVal:lower(),cmdSet:lower())
-						end
-					elseif condType == "Number" then
-						if cmdSet ~= 0 then
-							metCondition = metCondition and tonumber(argVal)<=tonumber(cmdSet)
-						end
-					end
-					if not metCondition then break end
-				end
-
-				if metCondition then
-					pcall(task.spawn(function()
-						local cmdStr = cmd[1]
-						for count,arg in pairs(args) do
-							cmdStr = cmdStr:gsub("%$"..count,arg)
-						end
-						wait(cmd[3] or 0)
-						execCmd(cmdStr)
-					end))
-				end
-			end
-		end
-	end
-	return {
-		FireEvent = fireEvent
-	}
-end)()
-  
   local ESPenabled = false
   
   local function ESP(pl)
@@ -1071,15 +1013,14 @@ pl.PlayerAdded:Connect(
 			end
 		end
 		
-	joins = pl.PlayerAdded:Connect(function(plr)
-	eventEditor.FireEvent("OnJoin",plr.Name)
+	_G.joins = pl.PlayerAdded:Connect(function(plr)
 	if ESPenabled then
 		repeat wait(1) until plr.Character and GetRoot(plr.Character)
 		ESP(plr)
 	end
 end)
 
-  exites = pl.PlayerRemoving:Connect(function(player)
+  _G.exites = pl.PlayerRemoving:Connect(function(player)
 	if ESPenabled then
 		for i,v in pairs(cg:GetChildren()) do
 			if v.Name == player.Name..'_ESP' then
@@ -1094,8 +1035,8 @@ end)
             for i,c in pairs(cg:GetChildren()) do
               if string.sub(c.Name, -4) == '_ESP' then
                   c:Destroy()
-                  joins:Disconnect()
-                  exites:Disconnect()
+                  _G.joins:Disconnect()
+                  _G.exites:Disconnect()
                   end
                 end
               end
@@ -1336,10 +1277,6 @@ local Esp = Tabs.Esp:AddSection("Game")
 )
 
 
-if huma and not huma.UseJumpPower then
-  huma.UseJumpPower = true
-end
-
   sliders:AddToggle("Toggle", {
     Title = "JumpPower",
     Default = _G.config.jump or false,
@@ -1401,7 +1338,6 @@ end
 end)
 
   pl.PlayerAdded:Connect(function()
-	eventEditor.FireEvent("OnJoin")
 	get_player_list()
   select_player:SetValues(player_list)
 end)
@@ -1545,7 +1481,9 @@ end)
   end
   }
 )
-
+local bangAnim
+local bangLoop
+local bang
   Players:AddToggle("bang",
     {
       Title = "Bang",
@@ -2446,7 +2384,7 @@ return
 end
 return old(self, ...)
 end)
-hookfunction(game:GetService("Players").LocalPlayer.Kick,protect(function() wait(9e9) end))
+hookfunction(lp.Kick,protect(function() wait(9e9) end))
       end
     })
   
@@ -2503,9 +2441,7 @@ hookfunction(game:GetService("Players").LocalPlayer.Kick,protect(function() wait
       Title = "Reset",
       Description = "Reset Character",
       Callback = function()
-      if character then
-        huma.Health = 0
-      end
+      lp.Character:WaitForChild('Humanoid'):TakeDamage(9e9)
     end
   }
 )
@@ -2520,18 +2456,13 @@ hookfunction(game:GetService("Players").LocalPlayer.Kick,protect(function() wait
   }
 )
 
-  Misc:AddButton(
-    {
-      Title = "Server Hop",
-      Description = "",
-      Callback = function()
-      local function Hop()
+local function Hop()
     local PlaceID = game.PlaceId
     local AllIDs = {}
     local foundAnything = ""
     local actualHour = os.date("!*t").hour
     local Deleted = false
-    function TPReturner()
+    local function TPReturner()
         local Site
         if foundAnything == "" then
             Site =
@@ -2594,7 +2525,7 @@ hookfunction(game:GetService("Players").LocalPlayer.Kick,protect(function() wait
             end
         end
     end
-    function Teleport()
+    local function Teleport()
         while wait() do
             pcall(
                 function()
@@ -2608,6 +2539,12 @@ hookfunction(game:GetService("Players").LocalPlayer.Kick,protect(function() wait
     end
     Teleport()
       end
+
+  Misc:AddButton(
+    {
+      Title = "Server Hop",
+      Description = "",
+      Callback = function()
   Hop()
 end
   }

@@ -3,6 +3,8 @@ _G.primas = true
 
 repeat task.wait() until game:IsLoaded()
 
+cloneref = cloneref or function(...) return ... end
+
 local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
 local UserInputService = cloneref(game:GetService('UserInputService'))
 local HttpService = cloneref(game:GetService('HttpService'))

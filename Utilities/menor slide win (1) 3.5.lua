@@ -1,3 +1,7 @@
+repeat task.wait() until game:IsLoaded()
+
+cloneref = cloneref or function(...) return ... end
+
 local VirtualInputManager = cloneref(game:GetService('VirtualInputManager'))
 local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
 local UserInputService = cloneref(game:GetService('UserInputService'))

@@ -6,6 +6,8 @@ end
 _G.FTF = true
 
 --// 📦 Serviços
+cloneref = cloneref or function(...) return ... end
+
 local Chat = cloneref(game:GetService('TextChatService'))
 local Vim = cloneref(game:GetService('VirtualInputManager'))
 local Mkt = cloneref(game:GetService('MarketplaceService'))
@@ -680,7 +682,7 @@ Main:AddButton(
             end
 
             if CPc then
-                GetRoot(Character).CFrame = CFrame.new(pc.Position)
+                GetRoot(Character).CFrame = CFrame.new(CPc.Position)
             else
                 Fluent:Notify({
                     Title = '[Casa Das Primas]',
@@ -843,19 +845,19 @@ buttons_sec:AddToggle('',
                     if arg == Enum.UserInputState.Begin then
                         Humanoid.HipHeight = -2
                         Humanoid.WalkSpeed = 8
-                        Animation:Play(0.100000001, 1, 0)
+                        CrawlAnim:Play(0.100000001, 1, 0)
                         Remote:FireServer('Input', 'Crawl', true)
                         Initial.Connects['Adjust'] = Humanoid.Running:Connect(function(arg)
                             if arg > 0.5 then
-                                Animation:AdjustSpeed(2)
+                                CrawlAnim:AdjustSpeed(2)
                             else
-                                Animation:AdjustSpeed(0)
+                                CrawlAnim:AdjustSpeed(0)
                             end
                         end)
                     elseif arg == Enum.UserInputState.End then
                         Humanoid.HipHeight = 0
                         Humanoid.WalkSpeed = 16
-                        Animation:Stop()
+                        CrawlAnim:Stop()
                         Remote:FireServer('Input', 'Crawl', false)
                         Initial.Connects['Adjust']:Disconnect()
                         Initial.Connects['Adjust'] = nil
@@ -889,7 +891,7 @@ buttons_sec:AddToggle('',
                     if TempStats.Ragdoll.Value then
                         Humanoid.HipHeight = 0
                         Humanoid.WalkSpeed = 16
-                        Animation:Stop()
+                        CrawlAnim:Stop()
                         Remote:FireServer('Input', 'Crawl', false)
                         Initial.Connects['Adjust']:Disconnect()
                         Initial.Connects['Adjust'] = nil

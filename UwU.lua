@@ -377,17 +377,17 @@ function GetCurve()
 
     local TargetPos = Part and Part.Position or (Root.Position + CurrentCamera.CFrame.LookVector * 100)
 
-    if CurrentCurve == 'Dot' then
+    if getgenv().CurrentCurve == 'Dot' then
         return {0, CFrame.new(Root.Position, TargetPos), World, Pos}
-    elseif CurrentCurve == 'Accelerated' then
+    elseif getgenv().CurrentCurve == 'Accelerated' then
         return {0, CFrame.new(Root.Position, TargetPos + Vector3.new(0, 5, 0)), World, Pos}
-    elseif CurrentCurve == 'Slow' then
+    elseif getgenv().CurrentCurve == 'Slow' then
         return {0, CFrame.new(Root.Position, TargetPos + Vector3.new(0, -9e18, 0)), World, Pos}
-    elseif CurrentCurve == 'High' then
+    elseif getgenv().CurrentCurve == 'High' then
         return {0, CFrame.new(Root.Position, TargetPos + Vector3(0, 9e18, 0)), World, Pos}
-    elseif CurrentCurve == 'Random' then
+    elseif getgenv().CurrentCurve == 'Random' then
         return {0, CFrame.new(Root.Position, Vector3.new(math.random(-1e3, 1e3), math.random(-350, 1e3), math.random(-1e3, 1e3))), World, Pos}
-    elseif CurrentCurve == 'Backwards' then
+    elseif getgenv().CurrentCurve == 'Backwards' then
         return {0, CFrame.new(CurrentCamera.CFrame.Position, Root.Position + (Root.Position - TargetPos).Unit * 1e4 + Vector3.new(0, 1e3, 0)), World, Pos}
     else
         return {0, CurrentCamera.CFrame, World, Pos}
@@ -984,7 +984,7 @@ if not IsMobile then
             }
 
             if Keys[input.KeyCode] then
-                CurrentCurve = Keys[input.KeyCode]
+                getgenv().CurrentCurve = Keys[input.KeyCode]
                 CurveModule:Update(Keys[input.KeyCode])
             end
 

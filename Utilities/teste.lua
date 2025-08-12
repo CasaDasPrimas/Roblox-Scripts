@@ -293,7 +293,6 @@ event:AddToggle("",
         Default = _G.config.Fps or false,
         Callback = function(value)
         _G.config.Fps = value
-        save()
         
         task.spawn(function()
             if _G.config.Fps then
@@ -336,7 +335,6 @@ event:AddToggle("ping",
         Default = _G.config.ping or false,
         Callback = function(value)
         _G.config.ping = value
-        save()
             
         task.spawn(function()
             if _G.config.ping then

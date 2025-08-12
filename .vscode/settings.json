@@ -1,0 +1,33 @@
+{
+    "krnlLsp.diagnostics.globals": [
+        "GG",
+        "UwU",
+        "Config",
+        "Connections",
+        "Util",
+        "Drawing",
+        "isfolder",
+        "makefolder",
+        "isfile",
+        "writefile",
+        "readfile",
+        "getinfo",
+        "getupvalue",
+        "getupvalues",
+        "setupvalue",
+        "getconstant",
+        "getconstants",
+        "iscclosure",
+        "islclosure",
+        "newcclosure",
+        "protect_function",
+        "hookfunction",
+        "LPH_OBFUSCATED",
+        "setthreadidentity",
+        "setclipboard",
+        "setfpscap",
+        "gethui",
+        "getnamecallmethod",
+        "tablein"
+    ]
+}

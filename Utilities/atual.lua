@@ -346,7 +346,7 @@ function Initial.ball_curved()
 
     local ball_events = Initial.ball.events
 
-	if target.PrimaryPart:FindFirstChild('MaxShield') and current_target ~= LocalPlayer.Name and Ball.distance < 50 then
+	if target.PrimaryPart:FindFirstChild('MaxShield') and current_target ~= LocalPlayer.Name and ball_events.distance < 50 then
 		return false
 	end
 
