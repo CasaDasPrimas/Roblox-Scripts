@@ -7,7 +7,7 @@ end
 getgenv().UwU = true
 
 --// Serviços
-cloneref = cloneref or function(a) return a end
+cloneref = cloneref or function(...) return ... end
 
 local VirtualInputManager = cloneref(game:GetService('VirtualInputManager'))
 local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
