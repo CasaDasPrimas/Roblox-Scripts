@@ -20,7 +20,7 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
 --// Languages
-getgenv().GG = {
+GG = {
     Language = {
         CheckboxEnabled = 'Enabled',
         CheckboxDisabled = 'Disabled',
@@ -2643,5 +2643,6 @@ function Library:CreateUi()
 
     return self
 end
+
 
 return Library
