@@ -1,7 +1,7 @@
 repeat task.wait() until game:IsLoaded()
 
 --// Services
-cloneref = cloneref or function(a) return a end
+cloneref = cloneref or function(...) return ... end
 
 local UserInputService = cloneref(game:GetService('UserInputService'))
 local ContentProvider = cloneref(game:GetService('ContentProvider'))
@@ -2646,3 +2646,4 @@ end
 
 
 return Library
+
