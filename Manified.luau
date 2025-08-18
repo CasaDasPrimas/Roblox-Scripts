@@ -1,9 +1,3 @@
---[[
-    Eduarda minha safadinha ❤
-]]--
-
-repeat task.wait() until game:IsLoaded()
-
 --// Connections
 type ConnectionsType = {
     [string]: RBXScriptConnection?,

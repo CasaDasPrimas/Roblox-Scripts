@@ -33,16 +33,16 @@ local Mouse = LocalPlayer:GetMouse()
 
 --// Library
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/CasaDasPrimas/Roblox-Scripts/refs/heads/main/Library.lua'))()
-local main = Library:CreateWindow()
+local Window = Library:CreateWindow()
 
-local AP = main:CreateTab('Auto Parry', 'rbxassetid://76499042599127')
-local Spam = main:CreateTab('Spam', 'rbxassetid://10709781460')
-local PL = main:CreateTab('Player', 'rbxassetid://126017907477623')
-local Visual = main:CreateTab('Visuals', 'rbxassetid://10723346959')
-local World = main:CreateTab('World', 'rbxassetid://10734897102')
-local Misc = main:CreateTab('Misc', 'rbxassetid://132243429647479')
-local GUI = main:CreateTab('GUI', 'rbxassetid://10734887784')
-local EXC = main:CreateTab('Exclusive', 'rbxassetid://10734966248')
+local AP = Window:CreateTab('Auto Parry', 'rbxassetid://76499042599127')
+local Spam = Window:CreateTab('Spam', 'rbxassetid://10709781460')
+local PL = Window:CreateTab('Player', 'rbxassetid://126017907477623')
+local Visual = Window:CreateTab('Visuals', 'rbxassetid://10723346959')
+local World = Window:CreateTab('World', 'rbxassetid://10734897102')
+local Misc = Window:CreateTab('Misc', 'rbxassetid://132243429647479')
+local GUI = Window:CreateTab('GUI', 'rbxassetid://10734887784')
+local EXC = Window:CreateTab('Exclusive', 'rbxassetid://10734966248')
 
 --// Game-Variables
 local variables = {
@@ -999,4 +999,4 @@ if not IsMobile then
     end)
 end
 
-main:load()
+Window:load()
