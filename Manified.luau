@@ -740,16 +740,12 @@ function Library:CreateUi()
                 Size = UDim2.fromOffset(698, 479)
             }):Play()
 
-            Connections['container_input_began'] = Container.InputBegan:Connect(on_drag)
-            Connections['input_changed'] = UserInputService.InputChanged:Connect(drag)
             SetTransparency(true)
         else
             TweenService:Create(Container, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
                 Size = UDim2.fromOffset(104.5, 52)
             }):Play()
 
-            Connections:disconnect('container_input_began')
-            Connections:disconnect('input_changed')
             SetTransparency(false)
         end
     end
@@ -2264,5 +2260,6 @@ function Library:CreateUi()
 
     return self
 end
+
 
 return Library
