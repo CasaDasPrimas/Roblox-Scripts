@@ -695,6 +695,7 @@ function Library:CreateUi()
         if not self._dragging then
             return
         end
+
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
             update_drag(input)
         end
