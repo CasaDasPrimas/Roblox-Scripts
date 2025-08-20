@@ -30,11 +30,11 @@ local IsMobile = table.find({
     }, UserInputService:GetPlatform())
 local CurrentCamera =  workspace.CurrentCamera
 local Mouse = LocalPlayer:GetMouse()
-
+warn('antes')
 --// Library
 local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/CasaDasPrimas/Roblox-Scripts/refs/heads/main/Library.luau'))()
 local Window = Library:CreateWindow()
-
+warn('depois')
 local AP = Window:CreateTab('Auto Parry', 'rbxassetid://76499042599127')
 local Spam = Window:CreateTab('Spam', 'rbxassetid://10709781460')
 local PL = Window:CreateTab('Player', 'rbxassetid://126017907477623')
@@ -124,7 +124,7 @@ if LocalPlayer.PlayerGui:FindFirstChild('Hotbar') and LocalPlayer.PlayerGui.Hotb
         end
     end
 end
-
+warn('remote')
 local SwordModule = require(ReplicatedStorage:WaitForChild('Shared'):WaitForChild('ReplicatedInstances'):WaitForChild('Swords'))
 local SwordControl
 
@@ -1001,3 +1001,4 @@ end
 
 
 Window:load()
+
