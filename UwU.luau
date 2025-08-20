@@ -32,7 +32,7 @@ local CurrentCamera =  workspace.CurrentCamera
 local Mouse = LocalPlayer:GetMouse()
 
 --// Library
-local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/CasaDasPrimas/Roblox-Scripts/refs/heads/main/Library.lua'))()
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/CasaDasPrimas/Roblox-Scripts/refs/heads/main/Library.luau'))()
 local Window = Library:CreateWindow()
 
 local AP = Window:CreateTab('Auto Parry', 'rbxassetid://76499042599127')
@@ -998,5 +998,6 @@ if not IsMobile then
         end
     end)
 end
+
 
 Window:load()
