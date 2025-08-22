@@ -1793,9 +1793,9 @@ function Library:CreateUi()
                 end
 
                 if Library:flag_type(settings.Flag, 'number') then
-                    self:set_percentage(Library._config._flags[settings.Flag])
+                    SliderManager:set_percentage(Library._config._flags[settings.Flag] or settings.Default)
                 else
-                    self:set_percentage(settings.Default or settings.Min)
+                    SliderManager:set_percentage(settings.Default or settings.Min)
                 end
 
                 Slider.MouseButton1Down:Connect(function()
