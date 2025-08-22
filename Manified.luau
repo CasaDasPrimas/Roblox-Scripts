@@ -1126,25 +1126,33 @@ function Library:CreateUi()
             function ModuleManager:change_state(state: boolean)
                 self._state = state
 
-                local targetSize: UDim2 = state and UDim2.fromOffset(241, 93 + self._size + self._multiplier) or UDim2.fromOffset(241, 93)
+                if self._state then
+                    TweenService:Create(Module, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+                        Size = UDim2.fromOffset(241, 93 + self._size + self._multiplier)
+                    }):Play()
 
-                TweenService:Create(Module, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-                    Size = targetSize
-                }):Play()
+                    TweenService:Create(Toggle, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+                        BackgroundColor3 = Color3.fromRGB(255, 254, 255)
+                    }):Play()
 
-                local toggleColor: Color3 = state and Color3.fromRGB(255, 254, 255) or Color3.fromRGB(0, 0, 0)
+                    TweenService:Create(Circle, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+                        BackgroundColor3 = Color3.fromRGB(255, 254, 255),
+                        Position = UDim2.fromScale(0.53, 0.5)
+                    }):Play()
+                else
+                    TweenService:Create(Module, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+                        Size = UDim2.fromOffset(241, 93)
+                    }):Play()
 
-                TweenService:Create(Toggle, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-                    BackgroundColor3 = toggleColor
-                }):Play()
+                    TweenService:Create(Toggle, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                    }):Play()
 
-                local circleColor: Color3 = state and Color3.fromRGB(255, 254, 255) or Color3.fromRGB(200, 200, 200)
-                local circlePosition: UDim2 = state and UDim2.fromScale(0.53, 0.5) or UDim2.fromScale(0, 0.5)
-
-                TweenService:Create(Circle, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-                    BackgroundColor3 = circleColor,
-                    Position = circlePosition
-                }):Play()
+                    TweenService:Create(Circle, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+                        BackgroundColor3 = Color3.fromRGB(200, 200, 200),
+                        Position = UDim2.fromScale(0, 0.5)
+                    }):Play()
+                end
 
                 Library._config._flags[settings.Flag] = self._state
 
