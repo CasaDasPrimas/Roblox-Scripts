@@ -840,7 +840,7 @@ function Library:CreateUi()
             _tab = self._tab
         }
 
-        local params = Instance.new('TextBoundsParams')
+        local params = Instance.new('GetTextBoundsParams')
         params.Text = title
         params.Font = Enum.Font.GothamSemibold
         params.Size = 13
@@ -2261,6 +2261,5 @@ function Library:CreateUi()
 
     return self
 end
-
 
 return Library
