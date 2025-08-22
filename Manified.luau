@@ -124,7 +124,7 @@ local function TableToString(tbl: {string}): string
 end
 
 if not isfolder('OwO') then
-    makefolder("OwO")
+    makefolder('OwO')
 end
 
 local Connections: ConnectionsType = setmetatable({
@@ -301,7 +301,7 @@ function AcrylicBlur:render(distance: number)
 end
 
 function AcrylicBlur:check_quality_level()
-    local gameSettings: GameSettings = UserSettings():GetService("UserGameSettings")
+    local gameSettings: GameSettings = UserSettings():GetService('UserGameSettings')
     local qualityLevel: number = gameSettings.SavedQualityLevel.Value
 
     if qualityLevel < 8 then
@@ -389,44 +389,44 @@ function Library:CreateWindow(): LibraryType
     return self
 end
 
-local NotifyContainer: Frame = Instance.new("Frame")
-NotifyContainer.Name = "NotifyContainer"
+local NotifyContainer: Frame = Instance.new('Frame')
+NotifyContainer.Name = 'NotifyContainer'
 NotifyContainer.Size = UDim2.new(0, 300, 0, 0)
 NotifyContainer.Position = UDim2.new(0.8, 0, 0, 10)
 NotifyContainer.BackgroundTransparency = 1
 NotifyContainer.AutomaticSize = Enum.AutomaticSize.Y
-NotifyContainer.Parent = CoreGui:FindFirstChild("RobloxGui") or Instance.new("ScreenGui", CoreGui)
+NotifyContainer.Parent = CoreGui:FindFirstChild('RobloxGui') or Instance.new('ScreenGui', CoreGui)
 
-local UIListLayout: UIListLayout = Instance.new("UIListLayout")
+local UIListLayout: UIListLayout = Instance.new('UIListLayout')
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 10)
 UIListLayout.Parent = NotifyContainer
 
 function Library:CreateNotify(settings: {Title: string?, Text: string?, Duration: number?})
-    local Notification: Frame = Instance.new("Frame")
+    local Notification: Frame = Instance.new('Frame')
     Notification.Size = UDim2.new(1, 0, 0, 60)
     Notification.BackgroundTransparency = 1
     Notification.AutomaticSize = Enum.AutomaticSize.Y
     Notification.Parent = NotifyContainer
 
-    local UICorner: UICorner = Instance.new("UICorner")
+    local UICorner: UICorner = Instance.new('UICorner')
     UICorner.CornerRadius = UDim.new(0, 4)
     UICorner.Parent = Notification
 
-    local InnerFrame: Frame = Instance.new("Frame")
+    local InnerFrame: Frame = Instance.new('Frame')
     InnerFrame.Size = UDim2.new(1, 0, 0, 60)
     InnerFrame.BackgroundColor3 = Color3.new(0, 0, 0)
     InnerFrame.BackgroundTransparency = 0.3
     InnerFrame.AutomaticSize = Enum.AutomaticSize.Y
     InnerFrame.Parent = Notification
 
-    local InnerUICorner: UICorner = Instance.new("UICorner")
+    local InnerUICorner: UICorner = Instance.new('UICorner')
     InnerUICorner.CornerRadius = UDim.new(0, 4)
     InnerUICorner.Parent = InnerFrame
 
-    local Title: TextLabel = Instance.new("TextLabel")
-    Title.Text = settings.Title or "Notification Title"
+    local Title: TextLabel = Instance.new('TextLabel')
+    Title.Text = settings.Title or 'Notification Title'
     Title.TextColor3 = Color3.fromRGB(210, 210, 210)
     Title.Font = Enum.Font.GothamSemibold
     Title.TextSize = 14
@@ -438,8 +438,8 @@ function Library:CreateNotify(settings: {Title: string?, Text: string?, Duration
     Title.AutomaticSize = Enum.AutomaticSize.Y
     Title.Parent = InnerFrame
 
-    local Body: TextLabel = Instance.new("TextLabel")
-    Body.Text = settings.Text or "This is the body of the notification."
+    local Body: TextLabel = Instance.new('TextLabel')
+    Body.Text = settings.Text or 'This is the body of the notification.'
     Body.TextColor3 = Color3.fromRGB(180, 180, 180)
     Body.Font = Enum.Font.GothamSemibold
     Body.TextSize = 12
@@ -526,7 +526,7 @@ function Library:CreateUi()
     Container.Active = true
     Container.Parent = OwO
 
-    local Gradient: UIGradient = Instance.new("UIGradient")
+    local Gradient: UIGradient = Instance.new('UIGradient')
 
     Gradient.Color = ColorSequence.new({
         ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 5, 15)),
@@ -617,14 +617,14 @@ function Library:CreateUi()
     Icon.Parent = Handler
 
     local IDs: {string} = {
-        "137613206534423",
-        "85001297263526",
-        "77720936213212",
-        "71849504203751",
-        "139291859864999",
-        "110957981641303",
-        "135054168844778",
-        "103066533154874"
+        '137613206534423',
+        '85001297263526',
+        '77720936213212',
+        '71849504203751',
+        '139291859864999',
+        '110957981641303',
+        '135054168844778',
+        '103066533154874'
     }
 
     local frameIndex: number = 1
@@ -634,7 +634,7 @@ function Library:CreateUi()
         local timeNow: number = os.clock()
 
         if timeNow - lastTime >= 0.1 then
-            Icon.Image = "rbxassetid://" .. IDs[frameIndex]
+            Icon.Image = 'rbxassetid://' .. IDs[frameIndex]
             frameIndex = frameIndex % #IDs + 1
             lastTime = timeNow
         end
@@ -710,7 +710,7 @@ function Library:CreateUi()
     end)
 
     function self:Update1Run(transparency: string?)
-        if transparency == "nil" then
+        if transparency == 'nil' then
             Container.BackgroundTransparency = 0.05
         else
             Container.BackgroundTransparency = tonumber(transparency) or 0
@@ -724,10 +724,10 @@ function Library:CreateUi()
     end
 
     local function SetTransparency(state: boolean)
-        local folder: Folder? = CurrentCamera:FindFirstChild("AcrylicBlur")
+        local folder: Folder? = CurrentCamera:FindFirstChild('AcrylicBlur')
 
         if folder then
-            local root: Part? = folder:FindFirstChild("Root")
+            local root: Part? = folder:FindFirstChild('Root')
 
             if root then
                 root.Transparency = state and 0.98 or 1
@@ -793,7 +793,7 @@ function Library:CreateUi()
                 BackgroundTransparency = isSelected and 0.5 or 1
             }):Play()
 
-            local textLabel: TextLabel = obj:FindFirstChildOfClass("TextLabel")
+            local textLabel: TextLabel = obj:FindFirstChildOfClass('TextLabel')
 
             if textLabel then
                 TweenService:Create(textLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
@@ -801,7 +801,7 @@ function Library:CreateUi()
                     TextColor3 = isSelected and Color3.fromRGB(255, 254, 255) or Color3.fromRGB(255, 255, 255)
                 }):Play()
 
-                local gradient: UIGradient = textLabel:FindFirstChildOfClass("UIGradient")
+                local gradient: UIGradient = textLabel:FindFirstChildOfClass('UIGradient')
 
                 if gradient then
                     TweenService:Create(gradient, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
@@ -810,7 +810,7 @@ function Library:CreateUi()
                 end
             end
 
-            local icon: ImageLabel = obj:FindFirstChild("Icon")
+            local icon: ImageLabel = obj:FindFirstChild('Icon')
 
             if icon then
                 TweenService:Create(icon, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
@@ -842,7 +842,7 @@ function Library:CreateUi()
 
         local params = Instance.new('GetTextBoundsParams')
         params.Text = title
-        params.Font = Enum.Font.GothamSemibold
+        params.Font = Font.new('rbxasset://fonts/families/GothamSSm.json')
         params.Size = 13
         params.Width = 10000
 
@@ -1010,7 +1010,7 @@ function Library:CreateUi()
             ModuleName.Font = Enum.Font.GothamSemibold
             ModuleName.TextColor3 = Color3.fromRGB(255, 254, 255)
             ModuleName.TextTransparency = 0.2
-            ModuleName.Text = settings.Title or "Title"
+            ModuleName.Text = settings.Title or 'Title'
             ModuleName.Name = 'ModuleName'
             ModuleName.Size = UDim2.new(0, 205, 0, 13)
             ModuleName.AnchorPoint = Vector2.new(0, 0.5)
@@ -1022,14 +1022,14 @@ function Library:CreateUi()
 
             if settings.Rich then
                 ModuleName.RichText = true
-                ModuleName.Text = settings.RichText or "<font color='rgb(255,0,0)'>OwO</font> user"
+                ModuleName.Text = settings.RichText or '<font color='rgb(255,0,0)'>OwO</font> user'
             end
 
             local Description: TextLabel = Instance.new('TextLabel')
             Description.Font = Enum.Font.GothamSemibold
             Description.TextColor3 = Color3.fromRGB(200, 200, 200)
             Description.TextTransparency = 0.7
-            Description.Text = settings.Description or ""
+            Description.Text = settings.Description or ''
             Description.Name = 'Description'
             Description.Size = UDim2.new(0, 205, 0, 13)
             Description.AnchorPoint = Vector2.new(0, 0.5)
@@ -1256,7 +1256,7 @@ function Library:CreateUi()
                 Paragraph.BackgroundColor3 = Color3.fromRGB(32, 38, 51)
                 Paragraph.BackgroundTransparency = 0.1
                 Paragraph.Size = UDim2.new(0, 207, 0, 30)
-                Paragraph.Name = "Paragraph"
+                Paragraph.Name = 'Paragraph'
                 Paragraph.AutomaticSize = Enum.AutomaticSize.Y
                 Paragraph.LayoutOrder = layoutOrder
                 Paragraph.Parent = Options
@@ -1268,7 +1268,7 @@ function Library:CreateUi()
                 local Title: TextLabel = Instance.new('TextLabel')
                 Title.Font = Enum.Font.GothamSemibold
                 Title.TextColor3 = Color3.fromRGB(210, 210, 210)
-                Title.Text = settings.Title or "Title"
+                Title.Text = settings.Title or 'Title'
                 Title.Size = UDim2.new(1, -10, 0, 20)
                 Title.Position = UDim2.new(0, 5, 0, 5)
                 Title.BackgroundTransparency = 1
@@ -1281,7 +1281,7 @@ function Library:CreateUi()
                 local Body: TextLabel = Instance.new('TextLabel')
                 Body.Font = Enum.Font.Gotham
                 Body.TextColor3 = Color3.fromRGB(180, 180, 180)
-                Body.Text = settings.Text or "Skibidi"
+                Body.Text = settings.Text or 'Skibidi'
                 Body.Size = UDim2.new(1, -10, 0, 20)
                 Body.Position = UDim2.new(0, 5, 0, 30)
                 Body.BackgroundTransparency = 1
@@ -1294,7 +1294,7 @@ function Library:CreateUi()
 
                 if settings.Rich then
                     Body.RichText = true
-                    Body.Text = settings.RichText or "<font color='rgb(255,0,0)'>OwO</font> user"
+                    Body.Text = settings.RichText or '<font color='rgb(255,0,0)'>OwO</font> user'
                 end
 
                 Paragraph.MouseEnter:Connect(function()
@@ -1326,7 +1326,7 @@ function Library:CreateUi()
                 TextFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 TextFrame.BackgroundTransparency = 0.1
                 TextFrame.Size = UDim2.new(0, 207, 0, settings.Height or 50)
-                TextFrame.Name = "Text"
+                TextFrame.Name = 'Text'
                 TextFrame.AutomaticSize = Enum.AutomaticSize.Y
                 TextFrame.LayoutOrder = layoutOrder
                 TextFrame.Parent = Options
@@ -1338,7 +1338,7 @@ function Library:CreateUi()
                 local Body: TextLabel = Instance.new('TextLabel')
                 Body.Font = Enum.Font.Gotham
                 Body.TextColor3 = Color3.fromRGB(180, 180, 180)
-                Body.Text = settings.Text or "Skibidi"
+                Body.Text = settings.Text or 'Skibidi'
                 Body.Size = UDim2.new(1, -10, 1, 0)
                 Body.Position = UDim2.new(0, 5, 0, 5)
                 Body.BackgroundTransparency = 1
@@ -1351,7 +1351,7 @@ function Library:CreateUi()
 
                 if settings.Rich then
                     Body.RichText = true
-                    Body.Text = settings.RichText or "<font color='rgb(255,0,0)'>OwO</font> user"
+                    Body.Text = settings.RichText or '<font color='rgb(255,0,0)'>OwO</font> user'
                 end
 
                 TextFrame.MouseEnter:Connect(function()
@@ -1368,10 +1368,10 @@ function Library:CreateUi()
 
                 return {
                     Set = function(newSettings: any)
-                        Body.Text = newSettings.Text or "Skibidi"
+                        Body.Text = newSettings.Text or 'Skibidi'
                         if newSettings.Rich then
                             Body.RichText = true
-                            Body.Text = newSettings.RichText or "<font color='rgb(255,0,0)'>OwO</font> user"
+                            Body.Text = newSettings.RichText or '<font color='rgb(255,0,0)'>OwO</font> user'
                         end
                     end
                 }
@@ -1392,7 +1392,7 @@ function Library:CreateUi()
                 Label.Font = Enum.Font.GothamSemibold
                 Label.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Label.TextTransparency = 0.2
-                Label.Text = settings.Title or "Enter text"
+                Label.Text = settings.Title or 'Enter text'
                 Label.Size = UDim2.new(0, 207, 0, 13)
                 Label.BackgroundTransparency = 1
                 Label.TextXAlignment = Enum.TextXAlignment.Left
@@ -1403,8 +1403,8 @@ function Library:CreateUi()
                 local TextBox: TextBox = Instance.new('TextBox')
                 TextBox.Font = Enum.Font.SourceSans
                 TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-                TextBox.PlaceholderText = settings.PlaceHolder or "Enter text..."
-                TextBox.Text = Library._config._flags[settings.Flag] or ""
+                TextBox.PlaceholderText = settings.PlaceHolder or 'Enter text...'
+                TextBox.Text = Library._config._flags[settings.Flag] or ''
                 TextBox.Name = 'TextBox'
                 TextBox.Size = UDim2.new(0, 207, 0, 15)
                 TextBox.TextSize = 10
@@ -1451,24 +1451,24 @@ function Library:CreateUi()
                 end
                 Options.Size = UDim2.fromOffset(241, self._size)
 
-                local Checkbox: TextButton = Instance.new("TextButton")
+                local Checkbox: TextButton = Instance.new('TextButton')
                 Checkbox.Font = Enum.Font.SourceSans
                 Checkbox.TextColor3 = Color3.fromRGB(0, 0, 0)
-                Checkbox.Text = ""
+                Checkbox.Text = ''
                 Checkbox.AutoButtonColor = false
                 Checkbox.BackgroundTransparency = 1
-                Checkbox.Name = "Checkbox"
+                Checkbox.Name = 'Checkbox'
                 Checkbox.Size = UDim2.new(0, 207, 0, 15)
                 Checkbox.TextSize = 14
                 Checkbox.LayoutOrder = layoutOrder
                 Checkbox.Parent = Options
 
-                local TitleLabel: TextLabel = Instance.new("TextLabel")
-                TitleLabel.Name = "TitleLabel"
+                local TitleLabel: TextLabel = Instance.new('TextLabel')
+                TitleLabel.Name = 'TitleLabel'
                 TitleLabel.Font = Enum.Font.GothamSemibold
                 TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 TitleLabel.TextTransparency = 0.2
-                TitleLabel.Text = settings.Title or "Skibidi"
+                TitleLabel.Text = settings.Title or 'Skibidi'
                 TitleLabel.Size = UDim2.new(0, 142, 0, 13)
                 TitleLabel.AnchorPoint = Vector2.new(0, 0.5)
                 TitleLabel.Position = UDim2.new(0, 0, 0.5, 0)
@@ -1476,50 +1476,50 @@ function Library:CreateUi()
                 TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
                 TitleLabel.Parent = Checkbox
 
-                local KeybindBox: Frame = Instance.new("Frame")
-                KeybindBox.Name = "KeybindBox"
+                local KeybindBox: Frame = Instance.new('Frame')
+                KeybindBox.Name = 'KeybindBox'
                 KeybindBox.Size = UDim2.fromOffset(14, 14)
                 KeybindBox.Position = UDim2.new(1, -35, 0.5, 0)
                 KeybindBox.AnchorPoint = Vector2.new(0, 0.5)
                 KeybindBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 KeybindBox.Parent = Checkbox
 
-                local KeybindCorner: UICorner = Instance.new("UICorner")
+                local KeybindCorner: UICorner = Instance.new('UICorner')
                 KeybindCorner.CornerRadius = UDim.new(0, 4)
                 KeybindCorner.Parent = KeybindBox
 
-                local KeybindLabel: TextLabel = Instance.new("TextLabel")
-                KeybindLabel.Name = "KeybindLabel"
+                local KeybindLabel: TextLabel = Instance.new('TextLabel')
+                KeybindLabel.Name = 'KeybindLabel'
                 KeybindLabel.Size = UDim2.new(1, 0, 1, 0)
                 KeybindLabel.BackgroundTransparency = 1
                 KeybindLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
                 KeybindLabel.TextSize = 10
                 KeybindLabel.Font = Enum.Font.SourceSans
-                KeybindLabel.Text = Library._config._keybinds[settings.Flag] and string.gsub(Library._config._keybinds[settings.Flag], "Enum.KeyCode.", "") or "..."
+                KeybindLabel.Text = Library._config._keybinds[settings.Flag] and string.gsub(Library._config._keybinds[settings.Flag], 'Enum.KeyCode.', '') or '...'
                 KeybindLabel.Parent = KeybindBox
 
-                local Box: Frame = Instance.new("Frame")
+                local Box: Frame = Instance.new('Frame')
                 Box.AnchorPoint = Vector2.new(1, 0.5)
                 Box.BackgroundTransparency = 0.9
                 Box.Position = UDim2.new(1, 0, 0.5, 0)
-                Box.Name = "Box"
+                Box.Name = 'Box'
                 Box.Size = UDim2.new(0, 15, 0, 15)
                 Box.BackgroundColor3 = Color3.fromRGB(152, 152, 152)
                 Box.Parent = Checkbox
 
-                local BoxCorner: UICorner = Instance.new("UICorner")
+                local BoxCorner: UICorner = Instance.new('UICorner')
                 BoxCorner.CornerRadius = UDim.new(0, 4)
                 BoxCorner.Parent = Box
 
-                local Fill: Frame = Instance.new("Frame")
+                local Fill: Frame = Instance.new('Frame')
                 Fill.AnchorPoint = Vector2.new(0.5, 0.5)
                 Fill.BackgroundTransparency = 0.2
                 Fill.Position = UDim2.new(0.5, 0, 0.5, 0)
-                Fill.Name = "Fill"
+                Fill.Name = 'Fill'
                 Fill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Fill.Parent = Box
 
-                local FillCorner: UICorner = Instance.new("UICorner")
+                local FillCorner: UICorner = Instance.new('UICorner')
                 FillCorner.CornerRadius = UDim.new(0, 3)
                 FillCorner.Parent = Fill
 
@@ -1546,7 +1546,7 @@ function Library:CreateUi()
                     settings.Callback(self._state)
                 end
 
-                if Library:flag_type(settings.Flag, "boolean") then
+                if Library:flag_type(settings.Flag, 'boolean') then
                     CheckboxManager:change_state(Library._config._flags[settings.Flag])
                 end
 
@@ -1569,8 +1569,8 @@ function Library:CreateUi()
                             Library._config._keybinds[settings.Flag] = nil
                             Config:save(tostring(game.GameId), Library._config)
 
-                            KeybindLabel.Text = "..."
-                            Connections:disconnect(settings.Flag .. "_keybind")
+                            KeybindLabel.Text = '...'
+                            Connections:disconnect(settings.Flag .. '_keybind')
                             Connections:disconnect('choose')
 
                             Library._choosing_keybind = false
@@ -1581,10 +1581,10 @@ function Library:CreateUi()
                         Library._config._keybinds[settings.Flag] = tostring(keyInput.KeyCode)
                         Config:save(tostring(game.GameId), Library._config)
 
-                        Connections:disconnect(settings.Flag .. "_keybind")
+                        Connections:disconnect(settings.Flag .. '_keybind')
                         Library._choosing_keybind = false
 
-                        local keyStr: string = string.gsub(Library._config._keybinds[settings.Flag], "Enum.KeyCode.", "")
+                        local keyStr: string = string.gsub(Library._config._keybinds[settings.Flag], 'Enum.KeyCode.', '')
                         KeybindLabel.Text = keyStr
                     end)
                 end)
@@ -1599,7 +1599,7 @@ function Library:CreateUi()
                     end
                 end)
 
-                Connections[settings.Flag .. "_keypress"] = keyPressConnection
+                Connections[settings.Flag .. '_keypress'] = keyPressConnection
 
                 return CheckboxManager
             end
@@ -1624,7 +1624,7 @@ function Library:CreateUi()
                     local TextLabel: TextLabel = Instance.new('TextLabel')
                     TextLabel.Font = Enum.Font.GothamSemibold
                     TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    TextLabel.Text = settings.Title or ""
+                    TextLabel.Text = settings.Title or ''
                     TextLabel.Size = UDim2.new(0, 153, 0, 13)
                     TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
                     TextLabel.BackgroundTransparency = 1
@@ -1686,7 +1686,7 @@ function Library:CreateUi()
                 TextLabel.Font = Enum.Font.GothamSemibold
                 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 TextLabel.TextTransparency = 0.2
-                TextLabel.Text = settings.Title or ""
+                TextLabel.Text = settings.Title or ''
                 TextLabel.Size = UDim2.new(0, 153, 0, 13)
                 TextLabel.Position = UDim2.new(0, 0, 0.05, 0)
                 TextLabel.BackgroundTransparency = 1
@@ -1837,7 +1837,7 @@ function Library:CreateUi()
                 TextLabel.Font = Enum.Font.GothamSemibold
                 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 TextLabel.TextTransparency = 0.2
-                TextLabel.Text = settings.Title or ""
+                TextLabel.Text = settings.Title or ''
                 TextLabel.Size = UDim2.new(0, 207, 0, 13)
                 TextLabel.BackgroundTransparency = 1
                 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -1919,14 +1919,14 @@ function Library:CreateUi()
 
                 function DropdownManager:set_options(newOptions: {string})
                     for _, obj: Instance in OptionsScroll:GetChildren() do
-                        if obj.Name == "Option" then
+                        if obj.Name == 'Option' then
                             obj:Destroy()
                         end
                     end
 
                     for _, option in newOptions do
-                        local btn: TextButton = Instance.new("TextButton")
-                        btn.Name = "Option"
+                        local btn: TextButton = Instance.new('TextButton')
+                        btn.Name = 'Option'
                         btn.Text = option
                         btn.Size = UDim2.new(1, 0, 0, 18)
                         btn.BackgroundTransparency = 1
@@ -1947,7 +1947,7 @@ function Library:CreateUi()
                     if current and table.find(newOptions, current) then
                         CurrentOption.Text = current
                     else
-                        CurrentOption.Text = SelectedLanguage.DropdownSelect or "Select"
+                        CurrentOption.Text = SelectedLanguage.DropdownSelect or 'Select'
                         Library._config._flags[settings.Flag] = nil
                     end
                 end
@@ -2091,42 +2091,42 @@ function Library:CreateUi()
 
                 Options.Size = UDim2.fromOffset(241, self._size)
 
-                local FeatureContainer: Frame = Instance.new("Frame")
+                local FeatureContainer: Frame = Instance.new('Frame')
                 FeatureContainer.Size = UDim2.new(0, 207, 0, 16)
                 FeatureContainer.BackgroundTransparency = 1
                 FeatureContainer.LayoutOrder = layoutOrder
                 FeatureContainer.Parent = Options
 
-                local UIListLayout: UIListLayout = Instance.new("UIListLayout")
+                local UIListLayout: UIListLayout = Instance.new('UIListLayout')
                 UIListLayout.FillDirection = Enum.FillDirection.Horizontal
                 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
                 UIListLayout.Parent = FeatureContainer
 
-                local FeatureButton: TextButton = Instance.new("TextButton")
+                local FeatureButton: TextButton = Instance.new('TextButton')
                 FeatureButton.Font = Enum.Font.GothamSemibold
                 FeatureButton.TextSize = 11
                 FeatureButton.Size = UDim2.new(1, -35, 0, 16)
                 FeatureButton.BackgroundColor3 = Color3.fromRGB(32, 38, 51)
                 FeatureButton.TextColor3 = Color3.fromRGB(210, 210, 210)
-                FeatureButton.Text = "    " .. (settings.Title or "Feature")
+                FeatureButton.Text = '    ' .. (settings.Title or 'Feature')
                 FeatureButton.AutoButtonColor = false
                 FeatureButton.TextXAlignment = Enum.TextXAlignment.Left
                 FeatureButton.TextTransparency = 0.2
                 FeatureButton.Parent = FeatureContainer
 
-                local RightContainer: Frame = Instance.new("Frame")
+                local RightContainer: Frame = Instance.new('Frame')
                 RightContainer.Size = UDim2.new(0, 45, 0, 16)
                 RightContainer.BackgroundTransparency = 1
                 RightContainer.Parent = FeatureContainer
 
-                local RightLayout: UIListLayout = Instance.new("UIListLayout")
+                local RightLayout: UIListLayout = Instance.new('UIListLayout')
                 RightLayout.Padding = UDim.new(0.1, 0)
                 RightLayout.FillDirection = Enum.FillDirection.Horizontal
                 RightLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
                 RightLayout.SortOrder = Enum.SortOrder.LayoutOrder
                 RightLayout.Parent = RightContainer
 
-                local KeybindBox: TextLabel = Instance.new("TextLabel")
+                local KeybindBox: TextLabel = Instance.new('TextLabel')
                 KeybindBox.Font = Enum.Font.GothamSemibold
                 KeybindBox.Size = UDim2.new(0, 15, 0, 15)
                 KeybindBox.BackgroundColor3 = Color3.fromRGB(181, 181, 181)
@@ -2136,17 +2136,17 @@ function Library:CreateUi()
                 KeybindBox.LayoutOrder = 2
                 KeybindBox.Parent = RightContainer
 
-                local KeybindButton: TextButton = Instance.new("TextButton")
+                local KeybindButton: TextButton = Instance.new('TextButton')
                 KeybindButton.Size = UDim2.new(1, 0, 1, 0)
                 KeybindButton.BackgroundTransparency = 1
                 KeybindButton.TextTransparency = 1
                 KeybindButton.Parent = KeybindBox
 
-                local CheckboxCorner: UICorner = Instance.new("UICorner")
+                local CheckboxCorner: UICorner = Instance.new('UICorner')
                 CheckboxCorner.CornerRadius = UDim.new(0, 3)
                 CheckboxCorner.Parent = KeybindBox
 
-                local UIStroke: UIStroke = Instance.new("UIStroke")
+                local UIStroke: UIStroke = Instance.new('UIStroke')
                 UIStroke.Color = Color3.fromRGB(255, 255, 255)
                 UIStroke.Thickness = 1
                 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -2155,30 +2155,30 @@ function Library:CreateUi()
                 if not Library._config._flags[settings.Flag] then
                     Library._config._flags[settings.Flag] = {
                         checked = false,
-                        BIND = settings.Default or "Unknown"
+                        BIND = settings.Default or 'Unknown'
                     }
                 end
 
                 local checked: boolean = Library._config._flags[settings.Flag].checked
-                KeybindBox.Text = Library._config._flags[settings.Flag].BIND == "Unknown" and "..." or Library._config._flags[settings.Flag].BIND
+                KeybindBox.Text = Library._config._flags[settings.Flag].BIND == 'Unknown' and '...' or Library._config._flags[settings.Flag].BIND
 
                 local toggled: () -> ()
 
                 if not settings.DisableCheck then
-                    local Checkbox: TextButton = Instance.new("TextButton")
+                    local Checkbox: TextButton = Instance.new('TextButton')
                     Checkbox.Size = UDim2.new(0, 15, 0, 15)
                     Checkbox.BackgroundColor3 = checked and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(182, 182, 182)
-                    Checkbox.Text = ""
+                    Checkbox.Text = ''
                     Checkbox.LayoutOrder = 1
                     Checkbox.Parent = RightContainer
 
-                    local UIStroke: UIStroke = Instance.new("UIStroke")
+                    local UIStroke: UIStroke = Instance.new('UIStroke')
                     UIStroke.Color = Color3.fromRGB(255, 255, 255)
                     UIStroke.Thickness = 1
                     UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                     UIStroke.Parent = Checkbox
 
-                    local CheckboxCorner: UICorner = Instance.new("UICorner")
+                    local CheckboxCorner: UICorner = Instance.new('UICorner')
                     CheckboxCorner.CornerRadius = UDim.new(0, 3)
                     CheckboxCorner.Parent = Checkbox
 
@@ -2198,7 +2198,7 @@ function Library:CreateUi()
                 end
 
                 KeybindButton.MouseButton1Click:Connect(function()
-                    KeybindBox.Text = "..."
+                    KeybindBox.Text = '...'
 
                     local inputConn = UserInputService.InputBegan:Connect(function(input: InputObject, processed: boolean)
                         if processed then
@@ -2208,20 +2208,20 @@ function Library:CreateUi()
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             local newKey: string = input.KeyCode.Name
                             Library._config._flags[settings.Flag].BIND = newKey
-                            KeybindBox.Text = newKey ~= "Unknown" and newKey or "..."
+                            KeybindBox.Text = newKey ~= 'Unknown' and newKey or '...'
                             Config:save(tostring(game.GameId), Library._config)
                             inputConn:Disconnect()
                         elseif input.UserInputType == Enum.UserInputType.MouseButton3 then
-                            Library._config._flags[settings.Flag].BIND = "Unknown"
-                            KeybindBox.Text = "..."
+                            Library._config._flags[settings.Flag].BIND = 'Unknown'
+                            KeybindBox.Text = '...'
                             Config:save(tostring(game.GameId), Library._config)
                             inputConn:Disconnect()
                         end
                     end)
-                    Connections["keybind_input_" .. settings.Flag] = inputConn
+                    Connections['keybind_input_' .. settings.Flag] = inputConn
                 end)
 
-                Connections["keybind_press_" .. settings.Flag] = UserInputService.InputBegan:Connect(function(input: InputObject, processed: boolean)
+                Connections['keybind_press_' .. settings.Flag] = UserInputService.InputBegan:Connect(function(input: InputObject, processed: boolean)
                     if processed or input.UserInputType ~= Enum.UserInputType.Keyboard then
                         return
                     end
