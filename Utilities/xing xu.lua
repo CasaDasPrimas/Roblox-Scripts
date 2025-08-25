@@ -20,12 +20,12 @@ local originalMetatables = {}
 
 local function isValidRemoteArgs(args)
     return #args == 7 and
-           type(args[2]) == "string" and  
-           type(args[3]) == "number" and 
-           typeof(args[4]) == "CFrame" and 
-           type(args[5]) == "table" and  
-           type(args[6]) == "table" and 
-           type(args[7]) == "boolean"
+        type(args[2]) == "string" and  
+        type(args[3]) == "number" and 
+        typeof(args[4]) == "CFrame" and 
+        type(args[5]) == "table" and  
+        type(args[6]) == "table" and 
+        type(args[7]) == "boolean"
 end
 
 local function hookRemote(remote)
