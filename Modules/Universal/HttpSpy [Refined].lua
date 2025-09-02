@@ -1,28 +1,32 @@
 repeat task.wait() until game:IsLoaded()
 
 if HttpSpy then
-    return warn('[HttpSpy] Already Executed!')
+    return warn('[HttpSpy]: Already Executed!')
 end
 
 getgenv().HttpSpy = true
 
+--//Services
 cloneref = cloneref or function(...) return ... end
 
 local TweenService: TweenService = cloneref(game:GetService('TweenService'))
 local HttpService: HttpService = cloneref(game:GetService('HttpService'))
 local Players: Players = cloneref(game:GetService('Players'))
 
+--// Variables
 local LocalPlayer: LocalPlayer = Players.LocalPlayer
+local LayoutOrder, state = 0, true
 
+--// save_config
 local config = {
 	state = true
 }
 
+local path = 'Casa Das Primas/HttpSpy.json'
+
 if not isfolder('Casa Das Primas') then
 	makefolder('Casa Das Primas')
 end
-
-local path = 'Casa Das Primas/HttpSpy.json'
 
 if isfile(path) then 
 	config = HttpService:JSONDecode(readfile(path))
@@ -32,12 +36,13 @@ local function save()
 	writefile(path, HttpService:JSONEncode(config))
 end
 
-local HttpSpy: ScreenGui = Instance.new('ScreenGui', --[[gethui() or protectgui or]] game.CoreGui)
-HttpSpy.Name = 'HttpSpy'
-HttpSpy.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-HttpSpy.ResetOnSpawn = false
+--// Instances:
+local ScreenGui: ScreenGui = Instance.new('ScreenGui', gethui() or protectgui or game.CoreGui)
+ScreenGui.Name = 'HttpSpy'
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
 
-local Container: Frame = Instance.new('Frame', HttpSpy)
+local Container: Frame = Instance.new('Frame', ScreenGui)
 Container.Name = 'Container'
 Container.BackgroundColor3 = Color3.fromRGB(52, 58, 64)
 Container.ClipsDescendants = true
@@ -190,7 +195,7 @@ RecentUrl.TextXAlignment = Enum.TextXAlignment.Left
 
 local TextLabel: TextLabel = Instance.new('TextLabel', RecentUrl)
 TextLabel.BackgroundTransparency = 1
-TextLabel.Position = UDim2.fromScale(0.5, 0)
+TextLabel.Position = UDim2.fromScale(0.43, 0)
 TextLabel.Size = UDim2.fromOffset(200, 22)
 TextLabel.Font = Enum.Font.SourceSansSemibold
 TextLabel.Text = 'https://roblox.com'
@@ -285,8 +290,8 @@ _LocalPlayer.TextXAlignment = Enum.TextXAlignment.Left
 
 local TextLabel_3: TextLabel = Instance.new('TextLabel', _LocalPlayer)
 TextLabel_3.BackgroundTransparency = 1
-TextLabel_3.Position = UDim2.fromScale(0.977, 0.14)
-TextLabel_3.Size = UDim2.fromOffset(146, 18)
+TextLabel_3.Position = UDim2.fromScale(1.02, 0.1)
+TextLabel_3.Size = UDim2.fromOffset(146, 22)
 TextLabel_3.Font = Enum.Font.SourceSansSemibold
 TextLabel_3.Text = `{LocalPlayer.DisplayName} ({LocalPlayer.Name})`
 TextLabel_3.TextColor3 = Color3.fromRGB(200, 200, 200)
@@ -320,10 +325,7 @@ TextLabel_4.TextSize = 20
 TextLabel_4.TextWrapped = true
 TextLabel_4.TextXAlignment = Enum.TextXAlignment.Left
 
-local state = true
-local LayoutOrder = 0
-
--- Connections:
+--// Connections:
 Stop.MouseButton1Click:Connect(function()
 	config.state = not config.state
 	Stop.Text =  config.state and 'Stop' or 'Active'
@@ -343,27 +345,28 @@ Clear.MouseButton1Click:Connect(function()
 end)
 
 Minimizer.MouseButton1Click:Connect(function()
-	TweenService:Create(Handler, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+	TweenService:Create(Container, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 		Size = UDim2.fromOffset(530, (state and 52 or 350))
 	}):Play()
 
-	Minimazer.Image = state and 'rbxassetid://10734965702' or 'rbxassetid://10734896206'
+	Minimizer.Image = state and 'rbxassetid://10734965702' or 'rbxassetid://10734896206'
 
 	state = not state
 end)
 
 Delete.MouseButton1Click:Connect(function()
-	HttpSpy:Destroy()
-	config.state = false
+	ScreenGui:Destroy()
+	HttpSpy = false
 end)
 
--- Function:
-task.spawn(function()
-	repeat
-		local totalS = math.floor(w.DistributedGameTime)
-		local h = math.floor(totalS / 3600)
-		local m = math.floor((totalS % 3600) / 60)
-		local s = totalS % 60
+do
+	local time = tick()
+
+	repeat task.wait(1)
+		local ts = math.floor(tick() - time)
+		local h = math.floor(ts / 3600)
+		local m = math.floor((ts % 3600) / 60)
+		local s = ts % 60
 		local t
 
 		if h > 0 then
@@ -375,62 +378,84 @@ task.spawn(function()
 		end
 
 		TextLabel_4.Text = t
-		task.wait(1)
-	until not config.state
-end)
+	until not HttpSpy
+end
 
+--// Function:
 local function AddText(method: string, url: string)
-	local TextButton = Instance.new('TextButton')
-	local Method = Instance.new('TextLabel')
-	local UICorner = Instance.new('UICorner')
-	local URL = Instance.new('TextLabel')
+	local TextButton = Instance.new('TextButton', Options)
+	local Method = Instance.new('TextLabel', TextButton)
+	local UICorner = Instance.new('UICorner', TextButton)
+	local URL = Instance.new('TextLabel', TextButton)
 
-	TextButton.Parent = Options
-	TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	TextButton.BackgroundTransparency = 0.920
-	TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	TextButton.BorderSizePixel = 0
+	LayoutOrder += 1
+
+	TextButton.BackgroundTransparency = 0.92
 	TextButton.Position = UDim2.new(0.00403225794, 0, 1.35633684e-07, 0)
 	TextButton.Size = UDim2.new(0, 240, 0, 30)
 	TextButton.Font = Enum.Font.SourceSansSemibold
 	TextButton.Text = ''
 	TextButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-	TextButton.TextSize = 20.000
+	TextButton.TextSize = 20
 	TextButton.TextWrapped = true
 	TextButton.TextXAlignment = Enum.TextXAlignment.Right
+	TextButton.LayoutOrder = LayoutOrder - 1
 
 	Method.Name = 'Method'
-	Method.Parent = TextButton
-	Method.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Method.BackgroundTransparency = 1.000
-	Method.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	Method.BorderSizePixel = 0
+	Method.BackgroundTransparency = 1
 	Method.Position = UDim2.new(0, 0, 0, 5)
 	Method.Size = UDim2.new(0, 45, 0, 20)
 	Method.Font = Enum.Font.SourceSansSemibold
 	Method.Text = `{method}:`
 	Method.TextColor3 = Color3.fromRGB(200, 200, 200)
 	Method.TextScaled = true
-	Method.TextSize = 20.000
+	Method.TextSize = 20
 	Method.TextWrapped = true
 	Method.TextXAlignment = Enum.TextXAlignment.Right
 
 	UICorner.CornerRadius = UDim.new(0, 4)
-	UICorner.Parent = TextButton
 
 	URL.Name = 'URL'
-	URL.Parent = TextButton
-	URL.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	URL.BackgroundTransparency = 1.000
-	URL.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	URL.BorderSizePixel = 0
+	URL.BackgroundTransparency = 1
 	URL.Position = UDim2.new(0.216666669, 0, 0.166666672, 0)
 	URL.Size = UDim2.new(0, 194, 0, 20)
 	URL.Font = Enum.Font.SourceSansSemibold
 	URL.Text = url
 	URL.TextColor3 = Color3.fromRGB(200, 200, 200)
-	URL.TextSize = 20.000
+	URL.TextSize = 20
 	URL.TextXAlignment = Enum.TextXAlignment.Left
 
-	RecentUrl.Text = url
+	TextLabel.Text = url
+
+	TextButton.MouseButton1Click:Connect(function()
+		if setclipboard then
+			setclipboard(URL.Text)
+		else
+			LocalPlayer:Kick('Trash Executor')
+		end
+	end)
+end
+
+--// Logger
+
+do
+	local mt = getrawmetatable(game)
+	local old = mt.__namecall
+	setreadonly(mt, false)
+
+	mt.__namecall = newcclosure(function(self, ...)
+		local _call = {...}
+
+		if getgenv().HttpSpy then
+			if getnamecallmethod() == "HttpGet" then
+				AddText('GET', tostring(_call[1]))
+			elseif getnamecallmethod() == "HttpPost" then
+				AddText('POST', tostring(_call[1]))
+			end
+		end
+
+		return old(self, ...)
+	end)
+
+	setreadonly(mt, true)
 end
