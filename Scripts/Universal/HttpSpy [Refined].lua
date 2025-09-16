@@ -446,13 +446,13 @@ do
 	mt.__namecall = newcclosure(function(self, ...)
 		local _call = {...}
 
-		if getgenv().HttpSpy then
+		--if getgenv().HttpSpy then
 			if getnamecallmethod() == "HttpGet" then
 				AddText('GET', tostring(_call[1]))
 			elseif getnamecallmethod() == "HttpPost" then
 				AddText('POST', tostring(_call[1]))
 			end
-		end
+		--end
 
 		return old(self, ...)
 	end)
