@@ -9,12 +9,20 @@ getgenv().HttpSpy = true
 --//Services
 cloneref = cloneref or function(...) return ... end
 
-local TweenService: TweenService = cloneref(game:GetService('TweenService'))
-local HttpService: HttpService = cloneref(game:GetService('HttpService'))
-local Players: Players = cloneref(game:GetService('Players'))
+local __ = setmetatable({}, {
+	__index = function(_, __name)
+		return cloneref(game:GetService(__name))
+	end
+})
+
+local _ = {
+	TweenService = __.TweenService,
+	HttpService = __.HttpService,
+	Players = __.Players,
+}
 
 --// Variables
-local LocalPlayer: LocalPlayer = Players.LocalPlayer
+local LocalPlayer = _.Players.LocalPlayer
 local LayoutOrder, state = 0, true
 
 --// save_config
@@ -29,11 +37,11 @@ if not isfolder('Casa Das Primas') then
 end
 
 if isfile(path) then 
-	config = HttpService:JSONDecode(readfile(path))
+	config = _.HttpService:JSONDecode(readfile(path))
 end
 
 local function save()
-	writefile(path, HttpService:JSONEncode(config))
+	writefile(path, _.HttpService:JSONEncode(config))
 end
 
 --// Instances:
@@ -49,7 +57,7 @@ Container.ClipsDescendants = true
 Container.Position = UDim2.fromScale(0.3, 0.12)
 Container.Size = UDim2.fromOffset(0, 0)
 
-TweenService:Create(Container, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+_.TweenService:Create(Container, TweenInfo.new(1, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 	Size = UDim2.fromOffset(530, 350)
 }):Play()
 
@@ -200,7 +208,7 @@ TextLabel.Size = UDim2.fromOffset(200, 22)
 TextLabel.Font = Enum.Font.SourceSansSemibold
 TextLabel.Text = 'https://roblox.com'
 TextLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-TextLabel.TextScaled = true
+TextLabel.TextScaled = false
 TextLabel.TextSize = 20
 TextLabel.TextWrapped = true
 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -345,7 +353,7 @@ Clear.MouseButton1Click:Connect(function()
 end)
 
 Minimizer.MouseButton1Click:Connect(function()
-	TweenService:Create(Container, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+	_.TweenService:Create(Container, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 		Size = UDim2.fromOffset(530, (state and 52 or 350))
 	}):Play()
 
@@ -356,10 +364,10 @@ end)
 
 Delete.MouseButton1Click:Connect(function()
 	ScreenGui:Destroy()
-	HttpSpy = false
+	getgenv().HttpSpy = false
 end)
 
-do
+task.spawn(function()
 	local time = tick()
 
 	repeat task.wait(1)
@@ -378,8 +386,8 @@ do
 		end
 
 		TextLabel_4.Text = t
-	until not HttpSpy
-end
+	until not getgenv().HttpSpy
+end)
 
 --// Function:
 local function AddText(method: string, url: string)
@@ -431,13 +439,12 @@ local function AddText(method: string, url: string)
 		if setclipboard then
 			setclipboard(URL.Text)
 		else
-			LocalPlayer:Kick('Trash Executor')
+			LocalPlayer:Kick('Low UNC')
 		end
 	end)
 end
 
 --// Logger
-
 do
 	local mt = getrawmetatable(game)
 	local old = mt.__namecall
@@ -446,13 +453,14 @@ do
 	mt.__namecall = newcclosure(function(self, ...)
 		local _call = {...}
 
-		--if getgenv().HttpSpy then
+		if config.state and getgenv().HttpSpy then
 			if getnamecallmethod() == "HttpGet" then
 				AddText('GET', tostring(_call[1]))
+				print(_call[1])
 			elseif getnamecallmethod() == "HttpPost" then
 				AddText('POST', tostring(_call[1]))
 			end
-		--end
+		end
 
 		return old(self, ...)
 	end)
